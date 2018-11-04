@@ -1,0 +1,208 @@
+apply plugin: 'com.android.application'
+
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+
+def keystoreProperties = new Properties()
+
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    def versionPropsFile = rootProject.file('version.properties')
+    if (versionPropsFile.canRead()) {
+
+        Properties versionProps = new Properties()
+
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        def code = versionProps['versionCode'].toInteger()
+
+        versionProps['versionCode'] = code.toString()
+
+        versionProps.store(versionPropsFile.newWriter(), null)
+
+        defaultConfig {
+
+            applicationId = rootProject.ext.android.applicationId
+
+            minSdkVersion rootProject.ext.android.minSdkVersion
+
+            targetSdkVersion rootProject.ext.android.targetSdkVersion
+
+            versionName System.getenv().VERSION ?: rootProject.ext.android.versionName
+
+            versionCode System.getenv().BUILD_NUMBER as Integer ?: increaseVersionCode()
+
+            testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+            manifestPlaceholders = [
+                    APP_ICON    : "@mipmap/ic_launcher",
+                    UMENG_APPKEY: "",
+            ]
+
+            buildConfigField("boolean", "LOTTERY_RELEASE", "false")
+            buildConfigField("boolean", "LOTTERY_BETA", "false")
+            buildConfigField("boolean", "LOTTERY_ALPHA", "true")
+
+        }
+
+    } else {
+        throw new GradleException("Could not read version.properties!")
+    }
+
+    signingConfigs {
+        release {
+            def filePath = rootProject.projectDir.path + File.separator + keystoreProperties['storeFile']
+            storeFile file(filePath)
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
+    buildTypes {
+
+        debug {
+            signingConfig signingConfigs.release
+        }
+
+        beta {
+            manifestPlaceholders = [
+                    APP_ICON    : "@mipmap/ic_launcher_beta",
+                    UMENG_APPKEY: "",
+            ]
+
+            buildConfigField("boolean", "LOTTERY_RELEASE", "false")
+            buildConfigField("boolean", "LOTTERY_ALPHA", "false")
+            buildConfigField("boolean", "LOTTERY_BETA", "true")
+
+            applicationIdSuffix '.beta'
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+            matchingFallbacks = ['release']
+        }
+
+        alpha {
+            manifestPlaceholders = [
+                    APP_ICON    : "@mipmap/ic_launcher",
+                    UMENG_APPKEY: "",
+            ]
+
+            buildConfigField("boolean", "LOTTERY_RELEASE", "false")
+            buildConfigField("boolean", "LOTTERY_BETA", "false")
+            buildConfigField("boolean", "LOTTERY_ALPHA", "true")
+
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+            matchingFallbacks = ['release']
+        }
+
+        release {
+            manifestPlaceholders = [
+                    APP_ICON    : "@mipmap/ic_launcher",
+                    UMENG_APPKEY: rootProject.ext.umengkey,
+            ]
+
+            buildConfigField("boolean", "LOTTERY_RELEASE", "true")
+            buildConfigField("boolean", "LOTTERY_ALPHA", "false")
+            buildConfigField("boolean", "LOTTERY_BETA", "false")
+
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    applicationVariants.all { variant ->
+
+        variant.outputs.all { output ->
+
+            def outputFile = output.outputFile
+
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+
+                if (variant.buildType.name == 'beta') {
+                    def fileName = "${rootProject.ext.name}_${versionName}_beta.apk"
+                    outputFileName = new File(fileName)
+                } else if (variant.buildType.name == 'alpha') {
+                    def fileName = "${rootProject.ext.name}_${rootProject.ext.merchant}_${versionName}_alpha.apk"
+                    outputFileName = new File(fileName)
+                } else if (variant.buildType.name == 'release') {
+                    def fileName = "${rootProject.ext.name}_${versionName}.apk"
+                    outputFileName = new File(fileName)
+                }
+
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+//
+//    greendao {
+//        schemaVersion 1//数据库版本号
+//        daoPackage 'com.lottery.app.data.db.greendao'
+//        targetGenDir 'src/main/java'
+//    }
+    sourceSets {
+        main {
+            res.srcDirs = [
+                    'src/main/res']
+            assets.srcDirs = ['src/main/assets']
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
+    dexOptions {
+        jumboMode true
+    }
+
+    defaultConfig {
+        multiDexEnabled true
+    }
+}
+
+def increaseVersionCode() {
+    def versionPropsFile = rootProject.file('version.properties')
+    def code = 0
+    if (versionPropsFile.canRead()) {
+        Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+        code = versionProps['versionCode'].toInteger()
+        gradle.startParameter.taskNames.each { taskName ->
+            if (taskName.contains("assembleRelease") || taskName.contains("assembleBeta") || taskName.contains("assembleAlpha")) {
+                code++
+                versionProps['versionCode'] = code.toString()
+                versionProps.store(versionPropsFile.newWriter(), null)
+            }
+        }
+    } else {
+        throw new GradleException("Could not read version.properties!")
+    }
+    return code
+}
+
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation rootProject.ext.dependencies["constraint-layout"]
+    implementation rootProject.ext.dependencies["appcompat-v7"]
+    testImplementation rootProject.ext.dependencies["test-runner"]
+    testImplementation rootProject.ext.dependencies["junit"]
+    androidTestImplementation rootProject.ext.dependencies["espresso-core"]
+    annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
+    implementation rootProject.ext.dependencies["butterknife"]
+}
