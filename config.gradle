@@ -1,11 +1,11 @@
 ext {
-    name = "zxzx"
-    merchant = "026"
+    name = "apple"
+    merchant = "11"
     umengkey = "5b3c8180f43e481507000121"
     android = [
             compileSdkVersion: 28,
             buildToolsVersion: "28.0.3",
-            applicationId    : "com.merchant." + name + merchant,
+            applicationId    : "com.ddd." + name + merchant,
             minSdkVersion    : 14,
             targetSdkVersion : 28,
             versionCode      : 1,
@@ -20,6 +20,13 @@ ext {
         "espresso-core":'com.android.support.test.espresso:espresso-core:3.0.2',
         "butterknife":'com.jakewharton:butterknife:9.0.0-rc1',
         "butterknife-compiler":'com.jakewharton:butterknife-compiler:9.0.0-rc1',
+        "rxlifecycle":'com.trello:rxlifecycle:1.0',
+        "rxlifecycle-components":'com.trello:rxlifecycle-components:1.0',
+        "adapter-rxjava":'com.squareup.retrofit2:adapter-rxjava:2.1.0',
+        "retrofit":'com.squareup.retrofit2:retrofit:2.1.0',
+        "converter-gson":'com.squareup.retrofit2:converter-gson:2.8.5',
+        "logging-interceptor":'com.squareup.okhttp3:logging-interceptor:3.9.0',
+        "gson":'com.google.code.gson:gson:2.8.5'
     ]
 
 }
