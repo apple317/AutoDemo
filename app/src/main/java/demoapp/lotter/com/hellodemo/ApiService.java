@@ -2,9 +2,9 @@ package demoapp.lotter.com.hellodemo;
 
 
 import com.base.http.entity.BaseEntity;
-import com.base.http.rxjava.BaseObservable;
 import com.base.http.retrofit.FieldParam;
 import com.base.http.retrofit.POST;
+import com.base.http.rxjava.BaseObservable;
 
 public interface ApiService {
 

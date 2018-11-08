@@ -17,6 +17,8 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import rx.plugins.RxJavaHooks;
+
 
 /**
  * Created by apple_hsp on 17/7/17.
@@ -45,24 +47,7 @@ public final class Retrofit {
                         BaseParams baseParms = (BaseParams) args[0];
                         BaseHttpClient baseHttpClient = loadServiceMethod(method, baseParms);
                         baseHttpClient.setType(typeArguments[0]);
-                        return BaseObservable.create(new RxSubscriber<T>(baseHttpClient){});
-//                        return BaseObservable.create(new Observable.OnSubscribe<T>() {
-//                            @Override
-//                            public void call(final Subscriber<? super T> subscriber) {
-//                                baseHttpClient.execute(baseHttpClient, new Callback() {
-//                                    @Override
-//                                    public void onFailure(Call call, IOException e) {
-//                                        subscriber.onError(e);
-//                                    }
-//
-//                                    @Override
-//                                    public void onResponse(Call call, Response response) throws IOException {
-//                                        T t = (T) CustomGsonConverterFactory.create().responseBodyConverter(baseHttpClient.getType()).convert(response.body());
-//                                        subscriber.onNext(t);
-//                                    }
-//                                });
-//                            }
-//                        });
+                        return new BaseObservable<T>(RxJavaHooks.onCreate(new RxSubscriber<T>(baseHttpClient){}));
                     }
                 });
     }

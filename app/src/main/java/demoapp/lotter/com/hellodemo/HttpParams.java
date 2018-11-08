@@ -3,12 +3,9 @@ package demoapp.lotter.com.hellodemo;
 import com.base.http.params.BaseParams;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-
 
 /**
  * name   : HttpParams
@@ -21,27 +18,16 @@ public class HttpParams extends BaseParams {
 
     private HttpParams(Builder builder) {
 
-        Iterator iter = builder.headParams.keySet().iterator();
-        while (iter.hasNext()) {
-            String key = iter.next().toString();
-            String val = builder.headParams.get(key).toString();
-            putHeadParams(key,val);
-        }
-
-
-        if(fileParams.size()>0){
-            try {
-                put("multipartRequest",builder.fileParams);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
 
 
     }
 
 
     public static class Builder {
+
+        private String platformCode = "4";
+
+        private String paramsJson;
 
         private Map<String, Object> params = new HashMap<>();
         private Map<String, Object> headParams = new HashMap<>();
@@ -74,6 +60,28 @@ public class HttpParams extends BaseParams {
         }
 
         public HttpParams build() {
+            StringBuilder builder = new StringBuilder();
+            builder.append("{");
+            int i = 0;
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                if (entry.getValue() instanceof Boolean) {
+                    builder.append("\"" + entry.getKey() + "\":" + entry.getValue() + "");
+                } else if(entry.getValue() instanceof Integer){
+                    builder.append("\"" + entry.getKey() + "\":" + entry.getValue() + "");
+                } else {
+                    if (entry.getValue() != null && (entry.getValue().toString().startsWith("{") || entry.getValue().toString().startsWith("["))) {
+                        builder.append("\"" + entry.getKey() + "\":" + entry.getValue() + "");
+                    } else {
+                        builder.append("\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"");
+                    }
+                }
+                if ((i + 1) != params.entrySet().size()) {
+                    builder.append(",");
+                }
+                i++;
+            }
+            builder.append("}");
+            this.paramsJson = builder.toString();
             return new HttpParams(this);
         }
 

@@ -9,7 +9,7 @@ package demoapp.lotter.com.hellodemo;
  */
 public class HttpURL {
 
-    public static final String LOGIN = "/get_code?type=0";
+    public static final String LOGIN = "/web-api/api/v4/get_auth_code_new";
 
 
 
