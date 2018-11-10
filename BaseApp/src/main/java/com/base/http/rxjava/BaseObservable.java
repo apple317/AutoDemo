@@ -30,6 +30,7 @@ public class BaseObservable<T> extends Observable<T> {
     public Observable<T> observableInit(){
         return this.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
+                //.retryWhen(new RetryWithDelay(3,1000))
                 /*回调线程*/
                 .observeOn(AndroidSchedulers.mainThread());
     }

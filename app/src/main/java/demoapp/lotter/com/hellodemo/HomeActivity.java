@@ -1,8 +1,8 @@
 package demoapp.lotter.com.hellodemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.base.mvp.annotations.CreatePresenterAnnotation;
@@ -14,15 +14,12 @@ import demoapp.lotter.com.hellodemo.presenter.FrameworkActivityPresenter;
 
 
 @CreatePresenterAnnotation(FrameworkActivityPresenter.class)
-public class MainActivity extends BaseAppActivity<IHomeFragmentContract.View, FrameworkActivityPresenter>
-        implements IHomeFragmentContract.View {
+public class HomeActivity extends BaseAppActivity <IHomeFragmentContract.View, FrameworkActivityPresenter>
+        implements IHomeFragmentContract.View{
 
 
     @BindView(R.id.kkk)
     TextView kkk;
-
-    @BindView(R.id.btnReturn)
-    TextView btnReturn;
 
 
     @Override
@@ -39,6 +36,10 @@ public class MainActivity extends BaseAppActivity<IHomeFragmentContract.View, Fr
 
     }
 
+    @OnClick(R.id.kkk)
+    public void onClick() {
+        startActivity(new Intent(this,MainActivity.class));
+    }
 
     @Override
     public void showProgress() {
@@ -52,26 +53,13 @@ public class MainActivity extends BaseAppActivity<IHomeFragmentContract.View, Fr
 
     @Override
     public void showAuthCode(String code) {
-        Log.e("HU", "code====22222=======");
         kkk.setText(code);
+        Log.e("HU","code===========");
     }
 
     @Override
     protected void onDestroy() {
         Log.e("HU","onDestroy===========");
         super.onDestroy();
-    }
-
-    @OnClick({R.id.btnReturn, R.id.kkk})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnReturn:
-                finish();
-                break;
-            case R.id.kkk:
-                Log.e("HU", "code====kkk=======");
-                getMvpPresenter().getAuthCodeNew();
-                break;
-        }
     }
 }

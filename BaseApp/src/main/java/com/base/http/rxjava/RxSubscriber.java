@@ -1,5 +1,7 @@
 package com.base.http.rxjava;
 
+import android.util.Log;
+
 import com.base.http.common.BaseHttpClient;
 import com.base.http.entity.BaseEntity;
 import com.base.http.gsonfactory.CustomGsonConverterFactory;
@@ -30,6 +32,7 @@ public abstract class RxSubscriber<T> implements Observable.OnSubscribe<T> {
 
     @Override
     public void call(Subscriber<? super T> subscriber) {
+        Log.e("HU","======RxSubscriber====call=");
         baseHttpClient.execute(baseHttpClient, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

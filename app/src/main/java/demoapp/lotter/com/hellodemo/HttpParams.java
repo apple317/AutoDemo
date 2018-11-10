@@ -1,10 +1,18 @@
 package demoapp.lotter.com.hellodemo;
 
+import android.text.TextUtils;
+
 import com.base.http.params.BaseParams;
+import com.base.http.params.MD5Util;
+import com.base.utils.LogUtil;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -18,7 +26,54 @@ public class HttpParams extends BaseParams {
 
     private HttpParams(Builder builder) {
 
+        putHeadParams("platformCode", builder.platformCode);
+        putHeadParams("token", "");
+        putHeadParams("userId", "");
+        putHeadParams("MerchantCode","026");
+        putHeadParams("APIID","");
+        putHeadParams("X-APP-AGENT","");
 
+        putHeadParams("X-APP-CID", "");
+        putHeadParams("X-PROTOCOL", "JAVAAPI");
+        putHeadParams("X-APP-IP", "");
+        Iterator iter = builder.headParams.keySet().iterator();
+        while (iter.hasNext()) {
+            String key = iter.next().toString();
+            String val = builder.headParams.get(key).toString();
+            putHeadParams(key,val);
+        }
+
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        StringBuilder paramsBuilder = new StringBuilder();
+        paramsBuilder.append(builder.paramsJson);
+        paramsBuilder.append("");
+        paramsBuilder.append(timestamp);
+        String sign = MD5Util.MD5(paramsBuilder.toString(), "UTF-8");
+
+        put("timestamp", timestamp);
+        put("sign", sign);
+        if (!TextUtils.isEmpty(builder.paramsJson)) {
+            try {
+                put("params", URLEncoder.encode(builder.paramsJson, "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(fileParams.size()>0){
+            try {
+                put("multipartRequest",builder.fileParams);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        LogUtil.e("Lottery", "|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|");
+        LogUtil.e("Lottery", "| HttpParams - time: " + timestamp);
+        LogUtil.e("Lottery", "| HttpParams - params: " + builder.paramsJson);
+        LogUtil.e("Lottery", "| HttpParams - sign: " + sign);
+        LogUtil.e("Lottery", "| HttpParams - token: " + "");
+        LogUtil.e("Lottery", "|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|");
 
     }
 

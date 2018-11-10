@@ -34,11 +34,17 @@ public class FrameworkActivityPresenter extends IHomeFragmentContract.Presenter 
                 .subscribe(new RxResSubscriber<String>() {
                     @Override
                     public void onError(HttpException exception) {
-                        getView().showAuthCode(exception.getDisplayMessage());
+                        new android.os.Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                getView().showAuthCode(exception.getDisplayMessage());
+                            }
+                        },1000);
                     }
 
                     @Override
                     public void onNextData(String t) {
+
                         getView().showAuthCode(t);
                     }
                 });

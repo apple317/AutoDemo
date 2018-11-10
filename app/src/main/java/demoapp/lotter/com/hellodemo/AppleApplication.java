@@ -25,7 +25,7 @@ public class AppleApplication extends Application {
         configuration.readTimeout(30);
         configuration.writeTimeout(30);
         configuration.retryOnConnectionFailure(true);
-        configuration.setBaseUrl("");
+        configuration.setBaseUrl("https://mbappzxurlxl1.zzxx7.com");
         configuration.setCookieJar(new CookieJarImpl(new PersistentCookieStore(this)));
         configuration.diskCacheDir(getCacheDir());
         configuration.setOpenLog(true);

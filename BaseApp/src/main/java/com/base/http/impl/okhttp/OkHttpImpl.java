@@ -3,9 +3,9 @@ package com.base.http.impl.okhttp;
 
 import com.base.http.common.BaseHttpClient;
 import com.base.http.common.HttpConfiguration;
-import com.base.http.common.RetryWithDelay;
 import com.base.http.entity.METHOD;
 import com.base.http.impl.BaseHttpImpl;
+import com.base.http.interceptor.RetryWithDelay;
 import com.base.http.log.okHttpLog.HttpLoggingInterceptorM;
 import com.base.http.params.URLEncodedUtils;
 
@@ -103,7 +103,7 @@ public class OkHttpImpl<T> implements BaseHttpImpl {
         builder.addInterceptor(new RetryWithDelay(3));
         HttpLoggingInterceptorM interceptor = new HttpLoggingInterceptorM();
         interceptor.setLevel(HttpLoggingInterceptorM.Level.BODY);
-        builder.addInterceptor(interceptor);
+        builder.addNetworkInterceptor(interceptor);
         mOkHttpClient = builder.build();
     }
 

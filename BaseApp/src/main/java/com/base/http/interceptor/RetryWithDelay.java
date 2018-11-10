@@ -1,7 +1,6 @@
 package com.base.http.interceptor;
 
 
-
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -24,22 +23,13 @@ public class RetryWithDelay implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        System.out.println("retryNum=" + retryNum);
-        Response response = doRequest(chain, request);
+        Response response = chain.proceed(request);
         while (!response.isSuccessful() && retryNum < maxRetry) {
             retryNum++;
         }
         return response;
     }
 
-    private Response doRequest(Chain chain, Request request) {
-        Response response = null;
-        try {
-            response = chain.proceed(request);
-        } catch (Exception e) {
-        }
-        return response;
-    }
 
 }
 
