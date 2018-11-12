@@ -1,4 +1,4 @@
-package demoapp.lotter.com.hellodemo;
+package demoapp.lotter.com.hellodemo.entity;
 
 public  class DataEntity{
 

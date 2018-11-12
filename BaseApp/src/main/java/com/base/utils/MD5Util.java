@@ -1,4 +1,4 @@
-package com.base.http.params;
+package com.base.utils;
 
 import java.security.MessageDigest;
 

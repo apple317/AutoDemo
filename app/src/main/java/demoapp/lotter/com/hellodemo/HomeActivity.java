@@ -9,12 +9,14 @@ import com.base.mvp.annotations.CreatePresenterAnnotation;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import demoapp.lotter.com.common.baseview.BaseAppActivity;
 import demoapp.lotter.com.hellodemo.contract.IHomeFragmentContract;
 import demoapp.lotter.com.hellodemo.presenter.FrameworkActivityPresenter;
+import demoapp.lotter.com.hellodemo.view.MainActivity;
 
 
 @CreatePresenterAnnotation(FrameworkActivityPresenter.class)
-public class HomeActivity extends BaseAppActivity <IHomeFragmentContract.View, FrameworkActivityPresenter>
+public class HomeActivity extends BaseAppActivity<IHomeFragmentContract.View, FrameworkActivityPresenter>
         implements IHomeFragmentContract.View{
 
 

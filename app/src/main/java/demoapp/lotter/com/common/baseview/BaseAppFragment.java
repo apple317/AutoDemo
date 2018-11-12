@@ -1,4 +1,4 @@
-package demoapp.lotter.com.hellodemo;
+package demoapp.lotter.com.common.baseview;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

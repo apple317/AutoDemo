@@ -43,4 +43,7 @@ dependencies {
     api rootProject.ext.dependencies["eventbus"]
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
     api rootProject.ext.dependencies["butterknife"]
+    api rootProject.ext.dependencies["retrofit"]
+    api rootProject.ext.dependencies["converter-gson"]
+    implementation 'org.jetbrains:annotations:15.0'
 }

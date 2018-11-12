@@ -1,4 +1,4 @@
-package com.base.http.log.okHttpLog;
+package com.base.http.log;
 
 import com.base.utils.LogUtil;
 

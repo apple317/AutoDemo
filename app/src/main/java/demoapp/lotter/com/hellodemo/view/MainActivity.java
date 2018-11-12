@@ -1,4 +1,4 @@
-package demoapp.lotter.com.hellodemo;
+package demoapp.lotter.com.hellodemo.view;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +9,8 @@ import com.base.mvp.annotations.CreatePresenterAnnotation;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import demoapp.lotter.com.common.baseview.BaseAppActivity;
+import demoapp.lotter.com.hellodemo.R;
 import demoapp.lotter.com.hellodemo.contract.IHomeFragmentContract;
 import demoapp.lotter.com.hellodemo.presenter.FrameworkActivityPresenter;
 
