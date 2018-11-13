@@ -19,7 +19,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
@@ -47,8 +47,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Path parameters may not be {@code null}.
  */
 @Documented
-@Target(METHOD)
+@Target(PARAMETER)
 @Retention(RUNTIME)
-public @interface HttpBaseUrl {
-  String value();
+public @interface FieldMap {
+  /** Specifies whether the names and values are already URL encoded. */
+  boolean encoded() default false;
 }
