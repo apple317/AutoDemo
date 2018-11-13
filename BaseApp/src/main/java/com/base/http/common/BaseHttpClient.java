@@ -41,10 +41,6 @@ public class BaseHttpClient {
     private boolean ifGson;
     //请求返回数据
     String requestBackData;
-
-    //解析类
-    private Class parse;
-    private String content;
     public static HttpConfiguration configuration;
     private static final String WARNING_RE_INIT_CONFIG = "Try to initialize BaseHttpClient which had already been initialized before. " + "To re-init BaseHttpClient with new configuration call BaseHttpClient.destroy() at first.";
     private static final String ERROR_INIT_CONFIG_WITH_NULL = "BaseHttpClient configuration can not be initialized with null";
@@ -98,7 +94,6 @@ public class BaseHttpClient {
         this.mParams = builder.mParams;
         this.method = builder.method;
         this.shouldEncodeUrl = builder.shouldEncodeUrl;
-        this.parse = builder.parse;
         this.urlIdentifier = builder.urlIdentifier;
         this.ifGson = builder.ifGson;
         this.requestBackData = builder.requestBackData;
@@ -146,18 +141,12 @@ public class BaseHttpClient {
         return urlIdentifier;
     }
 
-    public Class getParse() {
-        return parse;
-    }
 
     public boolean isShouldEncodeUrl() {
         return shouldEncodeUrl;
     }
 
 
-    public String getContent() {
-        return content;
-    }
 
     public boolean isIfGson() {
         return ifGson;

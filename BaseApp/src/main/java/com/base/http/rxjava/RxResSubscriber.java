@@ -2,6 +2,7 @@ package com.base.http.rxjava;
 
 import com.base.http.listener.error.FactoryException;
 import com.base.http.listener.error.HttpException;
+import com.base.http.listener.okhttp.download.DownInfo;
 
 import rx.Subscriber;
 
@@ -44,5 +45,10 @@ public  class RxResSubscriber<T> extends Subscriber<T> {
     public void onError(HttpException exception){
 
     }
+
+    public void onDownlod(DownInfo downInfo){
+    }
+
+
 
 }

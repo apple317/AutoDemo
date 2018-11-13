@@ -49,7 +49,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Target(PARAMETER)
 @Retention(RUNTIME)
-public @interface FieldMap {
-  /** Specifies whether the names and values are already URL encoded. */
-  boolean encoded() default false;
+public @interface PartMap {
+  /** The {@code Content-Transfer-Encoding} of the parts. */
+  String encoding() default "binary";
 }

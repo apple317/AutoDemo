@@ -34,4 +34,6 @@ public class BaseObservable<T> extends Observable<T> {
                 /*回调线程*/
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+
 }

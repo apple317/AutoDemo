@@ -1,31 +1,45 @@
-package com.base.http.listener.okhttp;//package com.lottery.com.base.http.listener.okhttp;
+//package com.base.http.listener.okhttp;//package com.lottery.com.base.http.listener.okhttp;
 //
 //import android.content.Context;
 //
-//
-//import com.lottery.com.base.http.entity.DownEntity;
-//import com.lottery.com.base.http.entity.DownType;
-//import com.lottery.com.base.http.listener.HttpResult;
-//import com.lottery.com.base.http.retrofit.BaseSubscriber;
-//import com.lottery.com.base.http.params.StorageUtils;
-//import com.lottery.com.base.util.MachineInfo;
-//import com.lottery.com.base.http.common.BaseHttpClient;
-//import com.lottery.com.base.util.MD5Util;
+//import com.base.http.common.BaseHttpClient;
+//import com.base.http.entity.DownEntity;
+//import com.base.http.entity.DownType;
+//import com.base.http.params.MD5Util;
+//import com.base.http.params.StorageUtils;
 //
 //import java.io.File;
 //import java.io.FileOutputStream;
 //import java.io.IOException;
 //import java.io.InputStream;
 //
-//import okhttp3.Call;
-//import okhttp3.Callback;
-//import okhttp3.Response;
-//
-//
-///**
-// * @author applehsp
-// *
-// */
+////
+////import android.content.Context;
+////
+////
+////import com.lottery.com.base.http.entity.DownEntity;
+////import com.lottery.com.base.http.entity.DownType;
+////import com.lottery.com.base.http.listener.HttpResult;
+////import com.lottery.com.base.http.retrofit.BaseSubscriber;
+////import com.lottery.com.base.http.params.StorageUtils;
+////import com.lottery.com.base.util.MachineInfo;
+////import com.lottery.com.base.http.common.BaseHttpClient;
+////import com.lottery.com.base.util.MD5Util;
+////
+////import java.io.File;
+////import java.io.FileOutputStream;
+////import java.io.IOException;
+////import java.io.InputStream;
+////
+////import okhttp3.Call;
+////import okhttp3.Callback;
+////import okhttp3.Response;
+////
+////
+/////**
+//// * @author applehsp
+//// *
+//// */
 //public class DownFileCall<T>  implements Callback {
 //
 //

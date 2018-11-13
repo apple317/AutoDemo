@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
@@ -43,4 +44,6 @@ dependencies {
     api rootProject.ext.dependencies["eventbus"]
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
     api rootProject.ext.dependencies["butterknife"]
+    api rootProject.ext.dependencies["greendao"]
+    api rootProject.ext.dependencies["greendao-generator"]
 }

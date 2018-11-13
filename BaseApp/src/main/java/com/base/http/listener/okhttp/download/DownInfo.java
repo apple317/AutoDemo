@@ -1,11 +1,10 @@
-package com.base.http.listener.okhttp.upload;
+package com.base.http.listener.okhttp.download;
 
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Keep;
-import org.greenrobot.greendao.annotation.Transient;
 
 /**
  * apk下载请求数据基础类
@@ -22,29 +21,25 @@ public class DownInfo{
     private long countLength;
     /*下载长度*/
     private long readLength;
-    /*下载唯一的HttpService*/
-    @Transient
-    private HttpDownService service;
-    /*回调监听*/
-    @Transient
-    private HttpDownOnNextListener listener;
     /*超时设置*/
     private  int connectonTime=6;
     /*state状态数据库保存*/
     private int stateInte;
     /*url*/
     private String url;
+
     /*是否需要实时更新下载进度,避免线程的多次切换*/
     private boolean updateProgress;
-
-    public DownInfo(String url, HttpDownOnNextListener listener) {
-        setUrl(url);
-        setListener(listener);
-    }
 
     public DownInfo(String url) {
         setUrl(url);
     }
+
+    public DownInfo(String url,String savePath) {
+        setUrl(url);
+        setSavePath(savePath);
+    }
+
 
     @Keep
     public DownInfo(long id, String savePath, long countLength, long readLength,
@@ -115,22 +110,6 @@ public class DownInfo{
 
     public void setStateInte(int stateInte) {
         this.stateInte = stateInte;
-    }
-
-    public HttpDownOnNextListener getListener() {
-        return listener;
-    }
-
-    public void setListener(HttpDownOnNextListener listener) {
-        this.listener = listener;
-    }
-
-    public HttpDownService getService() {
-        return service;
-    }
-
-    public void setService(HttpDownService service) {
-        this.service = service;
     }
 
     public String getUrl() {

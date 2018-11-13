@@ -1,4 +1,4 @@
-package com.base.http.listener.okhttp.upload;
+package com.base.http.listener.okhttp.download;
 
 import java.io.IOException;
 
@@ -17,12 +17,10 @@ import okio.Source;
 public class DownloadResponseBody extends ResponseBody {
 
     private ResponseBody responseBody;
-    private DownloadProgressListener progressListener;
     private BufferedSource bufferedSource;
 
-    public DownloadResponseBody(ResponseBody responseBody, DownloadProgressListener progressListener) {
+    public DownloadResponseBody(ResponseBody responseBody) {
         this.responseBody = responseBody;
-        this.progressListener = progressListener;
     }
 
     @Override
@@ -52,12 +50,9 @@ public class DownloadResponseBody extends ResponseBody {
                 long bytesRead = super.read(sink, byteCount);
                 // read() returns the number of bytes read, or -1 if this source is exhausted.
                 totalBytesRead += bytesRead != -1 ? bytesRead : 0;
-                if (null != progressListener) {
-                    progressListener.update(totalBytesRead, responseBody.contentLength(), bytesRead == -1);
-                }
+
                 return bytesRead;
             }
         };
-
     }
 }

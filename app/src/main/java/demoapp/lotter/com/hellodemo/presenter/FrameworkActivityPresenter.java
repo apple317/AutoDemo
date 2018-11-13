@@ -6,7 +6,6 @@ import com.base.http.rxjava.RxResSubscriber;
 
 import demoapp.lotter.com.hellodemo.ApiService;
 import demoapp.lotter.com.hellodemo.DataEntity;
-import demoapp.lotter.com.hellodemo.HttpParams;
 import demoapp.lotter.com.hellodemo.HttpResultFunc;
 import demoapp.lotter.com.hellodemo.contract.IHomeFragmentContract;
 import rx.functions.Func1;
@@ -20,9 +19,7 @@ public class FrameworkActivityPresenter extends IHomeFragmentContract.Presenter 
 
     @Override
     public void getAuthCodeNew() {
-        new Retrofit().create(ApiService.class).getAuthCodeNew(
-                new HttpParams.Builder()
-                        .build()).observableInit()
+        new Retrofit().create(ApiService.class).getAuthCodeNew("kka").observableInit()
                 .map(new HttpResultFunc<DataEntity>())
                 .compose(getView().bindLifeycle())
                 .map(new Func1<DataEntity, String>() {

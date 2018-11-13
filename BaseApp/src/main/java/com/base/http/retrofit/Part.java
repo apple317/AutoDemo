@@ -49,7 +49,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Target(PARAMETER)
 @Retention(RUNTIME)
-public @interface PartMap {
-  /** The {@code Content-Transfer-Encoding} of the parts. */
+public @interface Part {
+  /**
+   * The name of the part. Required for all parameter types except
+   * {@link okhttp3.MultipartBody.Part}.
+   */
+  String value() default "";
+  /** The {@code Content-Transfer-Encoding} of this part. */
   String encoding() default "binary";
 }

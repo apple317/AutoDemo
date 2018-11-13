@@ -6,12 +6,15 @@ import com.base.http.params.BaseParams;
 import com.base.http.rxjava.BaseObservable;
 import com.base.http.rxjava.RxSubscriber;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -44,13 +47,47 @@ public final class Retrofit {
                         if (returnType instanceof ParameterizedType) {
                             typeArguments = ((ParameterizedType) returnType).getActualTypeArguments();
                         }
-                        BaseParams baseParms = (BaseParams) args[0];
+                        BaseParams baseParms =loadServiceArgs(args);
                         BaseHttpClient baseHttpClient = loadServiceMethod(method, baseParms);
                         baseHttpClient.setType(typeArguments[0]);
                         return new BaseObservable<T>(RxJavaHooks.onCreate(new RxSubscriber<T>(baseHttpClient){}));
                     }
                 });
     }
+
+
+    public BaseParams loadServiceArgs(Object[] args) {
+        BaseParams baseParams=new BaseParams();
+        for(Object object:args){
+            if(object instanceof PartMap){
+                Iterator iter = ((Map)object).entrySet().iterator();
+                while (iter.hasNext()) {
+                    Map.Entry entry = (Map.Entry) iter.next();
+                    String key = (String) entry.getKey();
+                    if(entry.getValue() instanceof File){
+                        try {
+                            baseParams.put(key,(File)entry.getValue());
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }else{
+                        baseParams.put(key,(String)entry.getValue());
+                    }
+                }
+            }else if(object instanceof Part){
+               Object partVal = ((Part) object).value();
+               if(partVal instanceof File){
+                   //baseParams.put(,(File)partVal);
+               }else{
+
+               }
+            }
+
+        }
+        return baseParams;
+    }
+
+
 
     /**
      * @param method
@@ -63,13 +100,12 @@ public final class Retrofit {
         synchronized (serviceMethodCache) {
             String httpTag = "";
             for (Annotation annotation : method.getAnnotations()) {
-                if (annotation instanceof HttpParse) {
-                    parse = ((HttpParse) annotation).value();
-                } else if (annotation instanceof GETFILE) {
-                    httpTag = ((GETFILE) annotation).value();
-                    methodName = METHOD.GET_FILE;
-                    url = baseHttpClient.configuration.getBaseUrl() + httpTag;
-                } else if (annotation instanceof GET) {
+//                if (annotation instanceof GETFILE) {
+//                    httpTag = ((GETFILE) annotation).value();
+//                    methodName = METHOD.GET_FILE;
+//                    url = baseHttpClient.configuration.getBaseUrl() + httpTag;
+//                } else
+                if (annotation instanceof GET) {
                     httpTag = ((GET) annotation).value();
                     methodName = METHOD.GET;
                     url = baseHttpClient.configuration.getBaseUrl() + httpTag;
@@ -81,19 +117,20 @@ public final class Retrofit {
                     httpTag = ((PUT) annotation).value();
                     methodName = METHOD.PUT;
                     url = baseHttpClient.configuration.getBaseUrl() + httpTag;
-                } else if (annotation instanceof DOWN) {
-                    httpTag = ((DOWN) annotation).value();
-                    methodName = METHOD.DOWNLOAD_FILE;
-                    url = baseHttpClient.configuration.getBaseUrl() + httpTag;
-                } else if (annotation instanceof PostJson) {
-                    httpTag = ((PostJson) annotation).value();
-                    methodName = METHOD.POST_STRING;
-                    url = baseHttpClient.configuration.getBaseUrl() + httpTag;
-                } else if (annotation instanceof PostFormFile) {
-                    httpTag = ((PostFormFile) annotation).value();
-                    methodName = METHOD.POST_FORM_FILE;
-                    url = baseHttpClient.configuration.getBaseUrl() + httpTag;
                 }
+//                else if (annotation instanceof DOWN) {
+//                    httpTag = ((DOWN) annotation).value();
+//                    methodName = METHOD.DOWNLOAD_FILE;
+//                    url = baseHttpClient.configuration.getBaseUrl() + httpTag;
+//                } else if (annotation instanceof PostJson) {
+//                    httpTag = ((PostJson) annotation).value();
+//                    methodName = METHOD.POST_STRING;
+//                    url = baseHttpClient.configuration.getBaseUrl() + httpTag;
+//                } else if (annotation instanceof PostFormFile) {
+//                    httpTag = ((PostFormFile) annotation).value();
+//                    methodName = METHOD.POST_FORM_FILE;
+//                    url = baseHttpClient.configuration.getBaseUrl() + httpTag;
+//                }
             }
             baseHttpClient = new BaseHttpClient.Builder()
                     .url(url).method(methodName)

@@ -205,6 +205,6 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
     implementation rootProject.ext.dependencies["butterknife"]
     api project(path: ':BaseApp')
-    implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation rootProject.ext.dependencies["eventbus"]
+
 }

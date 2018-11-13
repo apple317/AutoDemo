@@ -7,8 +7,12 @@ import com.base.http.entity.METHOD;
 import com.base.http.impl.BaseHttpImpl;
 import com.base.http.interceptor.RetryWithDelay;
 import com.base.http.log.okHttpLog.HttpLoggingInterceptorM;
+import com.base.http.params.BaseParams;
+import com.base.http.params.MD5Util;
 import com.base.http.params.URLEncodedUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -23,11 +27,14 @@ import javax.net.ssl.X509TrustManager;
 import okhttp3.Cache;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Headers;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okio.BufferedSink;
 
 
 /**
@@ -161,8 +168,6 @@ public class OkHttpImpl<T> implements BaseHttpImpl {
             for (ConcurrentHashMap.Entry<String, String> entry1 : client.getParams().headParams.entrySet()) {
                 request.header(entry1.getKey(), entry1.getValue());
             }
-//            if (baseObserver.retryWithDelay != null)
-//                mOkHttpClient.newBuilder().addInterceptor(baseObserver.retryWithDelay);
             call = mOkHttpClient.newCall(request.build());
             call.enqueue(callback);
         } catch (Exception e) {
@@ -170,96 +175,90 @@ public class OkHttpImpl<T> implements BaseHttpImpl {
         }
     }
 
-//    public void put(BaseHttpClient client, BaseFlowable<T> baseObserver) {
-//        Call call = null;
-//        try {
-//            Request request;
-//            RequestBody requestBody = new RequestBody() {
-//                @Override
-//                public MediaType contentType() {
-//                    return null;
-//                }
-//
-//                @Override
-//                public void writeTo(BufferedSink sink) throws IOException {
-//
-//                }
-//            };
-//            if (client.getTag() != null) {
-//                request = new Request.Builder()
-//                        .url(client.getUrl()).tag(client.getTag())
-//                        .put(requestBody).build();
-//            } else {
-//                request = new Request.Builder().tag(MD5Util.encrypt(client.getUrl()))
-//                        .url(client.getUrl())
-//                        .put(requestBody).build();
-//            }
-//            if (baseObserver.retryWithDelay != null)
-//                mOkHttpClient.newBuilder().addInterceptor(baseObserver.retryWithDelay);
-//            call = mOkHttpClient.newCall(request);
-//            call.enqueue(baseObserver);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void put(BaseHttpClient client, Callback callback) {
+        Call call = null;
+        try {
+            Request request;
+            RequestBody requestBody = new RequestBody() {
+                @Override
+                public MediaType contentType() {
+                    return null;
+                }
 
-//    public void patch(BaseHttpClient client, BaseFlowable<T> baseObserver) {
-//        Call call = null;
-//        try {
-//            Request request;
-//            RequestBody requestBody = new RequestBody() {
-//                @Override
-//                public MediaType contentType() {
-//                    return null;
-//                }
-//
-//                @Override
-//                public void writeTo(BufferedSink sink) throws IOException {
-//
-//                }
-//            };
-//            if (client.getTag() != null) {
-//                request = new Request.Builder()
-//                        .url(client.getUrl()).tag(client.getTag())
-//                        .patch(requestBody).build();
-//            } else {
-//                request = new Request.Builder().tag(MD5Util.encrypt(client.getUrl()))
-//                        .url(client.getUrl())
-//                        .patch(requestBody).build();
-//            }
-//            if (baseObserver.retryWithDelay != null)
-//                mOkHttpClient.newBuilder().addInterceptor(baseObserver.retryWithDelay);
-//            call = mOkHttpClient.newCall(request);
-//            call.enqueue(baseObserver);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+                @Override
+                public void writeTo(BufferedSink sink) throws IOException {
 
-//    public void delete(BaseHttpClient client, BaseFlowable<T> baseObserver) {
-//        Call call = null;
-//        try {
-//            Request request;
-//            if (client.getTag() != null) {
-//                request = new Request.Builder()
-//                        .url(URLEncodedUtils.getUrlWithQueryString(client.isShouldEncodeUrl(), client.getUrl(), client.getParams())).tag(client.getTag())
-//                        .delete().build();
-//            } else {
-//                request = new Request.Builder().tag(MD5Util.encrypt(client.getUrl()))
-//                        .url(URLEncodedUtils.getUrlWithQueryString(client.isShouldEncodeUrl(), client.getUrl(), client.getParams()))
-//                        .delete().build();
-//            }
-//            if (baseObserver.retryWithDelay != null)
-//                mOkHttpClient.newBuilder().addInterceptor(baseObserver.retryWithDelay);
-//            call = mOkHttpClient.newCall(request);
-//            call.enqueue(baseObserver);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//
-//    public void postString(BaseHttpClient client, BaseFlowable<T> baseObserver) {
+                }
+            };
+            if (client.getTag() != null) {
+                request = new Request.Builder()
+                        .url(client.getUrl()).tag(client.getTag())
+                        .put(requestBody).build();
+            } else {
+                request = new Request.Builder().tag(MD5Util.encrypt(client.getUrl()))
+                        .url(client.getUrl())
+                        .put(requestBody).build();
+            }
+            call = mOkHttpClient.newCall(request);
+            call.enqueue(callback);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void patch(BaseHttpClient client, Callback callback) {
+        Call call = null;
+        try {
+            Request request;
+            RequestBody requestBody = new RequestBody() {
+                @Override
+                public MediaType contentType() {
+                    return null;
+                }
+
+                @Override
+                public void writeTo(BufferedSink sink) throws IOException {
+
+                }
+            };
+            if (client.getTag() != null) {
+                request = new Request.Builder()
+                        .url(client.getUrl()).tag(client.getTag())
+                        .patch(requestBody).build();
+            } else {
+                request = new Request.Builder().tag(MD5Util.encrypt(client.getUrl()))
+                        .url(client.getUrl())
+                        .patch(requestBody).build();
+            }
+            call = mOkHttpClient.newCall(request);
+            call.enqueue(callback);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delete(BaseHttpClient client, Callback callback) {
+        Call call = null;
+        try {
+            Request request;
+            if (client.getTag() != null) {
+                request = new Request.Builder()
+                        .url(URLEncodedUtils.getUrlWithQueryString(client.isShouldEncodeUrl(), client.getUrl(), client.getParams())).tag(client.getTag())
+                        .delete().build();
+            } else {
+                request = new Request.Builder().tag(MD5Util.encrypt(client.getUrl()))
+                        .url(URLEncodedUtils.getUrlWithQueryString(client.isShouldEncodeUrl(), client.getUrl(), client.getParams()))
+                        .delete().build();
+            }
+            call = mOkHttpClient.newCall(request);
+            call.enqueue(callback);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+//    public void postString(BaseHttpClient client, Callback callback) {
 //        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), client.getContent());
 //        Call call = null;
 //        Request.Builder request = new Request.Builder()
@@ -274,44 +273,40 @@ public class OkHttpImpl<T> implements BaseHttpImpl {
 //            }
 //        }
 //        try {
-//            if (baseObserver.retryWithDelay != null)
-//                mOkHttpClient.newBuilder().addInterceptor(baseObserver.retryWithDelay);
-//            mOkHttpClient.newCall(request.build()).enqueue(baseObserver);
+//            mOkHttpClient.newCall(request.build()).enqueue(callback);
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
 //    }
 
-//    public void postFile(BaseHttpClient client, BaseFlowable<T> baseObserver) {
-//        MediaType MEDIA_TYPE_STREAM = MediaType.parse("application/octet-stream");
-//        RequestBody fileBody = null;
-//        Request.Builder request = new Request.Builder()
-//                .url(client.getUrl());
-//        if (client.getTag() != null) {
-//            request.tag(client.getTag());
-//        }
-//        if (client.getParams() != null) {
-//            if (client.getParams().fileParams.size() > 0) {
-//                for (ConcurrentHashMap.Entry<String, BaseParams.FileWrapper> entry1 : client.getParams().fileParams.entrySet()) {
-//                    {
-//                        File file = entry1.getValue().file;
-//                        fileBody = RequestBody.create(MEDIA_TYPE_STREAM, file);
-//                    }
-//                }
-//            }
-//            request.post(fileBody);
-//            for (ConcurrentHashMap.Entry<String, String> entry : client.getParams().headParams.entrySet()) {
-//                request.header(entry.getKey(), entry.getValue());
-//            }
-//        }
-//        try {
-//            if (baseObserver.retryWithDelay != null)
-//                mOkHttpClient.newBuilder().addInterceptor(baseObserver.retryWithDelay);
-//            mOkHttpClient.newCall(request.build()).enqueue(baseObserver);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void postFile(BaseHttpClient client, Callback callback) {
+        MediaType MEDIA_TYPE_STREAM = MediaType.parse("application/octet-stream");
+        RequestBody fileBody = null;
+        Request.Builder request = new Request.Builder()
+                .url(client.getUrl());
+        if (client.getTag() != null) {
+            request.tag(client.getTag());
+        }
+        if (client.getParams() != null) {
+            if (client.getParams().fileParams.size() > 0) {
+                for (ConcurrentHashMap.Entry<String, BaseParams.FileWrapper> entry1 : client.getParams().fileParams.entrySet()) {
+                    {
+                        File file = entry1.getValue().file;
+                        fileBody = RequestBody.create(MEDIA_TYPE_STREAM, file);
+                    }
+                }
+            }
+            request.post(fileBody);
+            for (ConcurrentHashMap.Entry<String, String> entry : client.getParams().headParams.entrySet()) {
+                request.header(entry.getKey(), entry.getValue());
+            }
+        }
+        try {
+            mOkHttpClient.newCall(request.build()).enqueue(callback);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public void postForm(BaseHttpClient client, Callback callback) {
@@ -346,62 +341,61 @@ public class OkHttpImpl<T> implements BaseHttpImpl {
         }
     }
 
-//
-//    public void postFormFile(BaseHttpClient client, BaseFlowable<T> baseObserver) {
-//        RequestBody requestBody = null;
-//        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-//        Request.Builder request = new Request.Builder()
-//                .url(client.getUrl());
-//        if (client.getTag() != null) {
-//            request.tag(client.getTag());
-//        }
-//        if (client.getParams() != null) {
-//            for (ConcurrentHashMap.Entry<String, String> entry : client.getParams().urlParams.entrySet()) {
-//                builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + entry.getKey() + "\""),
-//                        RequestBody.create(null, entry.getValue()));
-//            }
-//            requestBody = builder.build();
-//            if (client.getParams().fileParams.size() > 0) {
-//                for (ConcurrentHashMap.Entry<String, BaseParams.FileWrapper> entry1 : client.getParams().fileParams.entrySet()) {
-//                    {
-//                        File file = entry1.getValue().file;
-//                        String fileName = file.getName();
-//                        RequestBody fileBody = RequestBody.create(MediaType.parse(URLEncodedUtils.guessMimeType(fileName)), file);
-//                        //根据文件名设置contentType
-//                        builder.addFormDataPart(entry1.getKey(), fileName, fileBody);
-//                    }
-//                }
-//            }
-//            request.post(requestBody);
-//            for (ConcurrentHashMap.Entry<String, String> entry : client.getParams().headParams.entrySet()) {
-//                request.header(entry.getKey(), entry.getValue());
-//            }
-//        }
-//        try {
-//            //     BaseOkCall handler = new BaseOkCall(client,baseObserver);
-//            mOkHttpClient.newCall(request.build()).enqueue(baseObserver);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public void downloadFile(BaseHttpClient client, BaseFlowable<T> baseFlowable) {
-//        Call call = null;
-//        try {
-//            Request.Builder request = new Request.Builder()
-//                    .url(URLEncodedUtils.getUrlWithQueryString(client.isShouldEncodeUrl(),
-//                            client.getUrl(), client.getParams()));
-//            if (client.getTag() != null) {
-//                request.tag(client.getTag());
-//            }
-//            call = mOkHttpClient.newCall(request.get().build());
-//            call.enqueue(baseFlowable);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public void postFileProgress(BaseHttpClient client, BaseSubscriber<T> baseObserver) {
+    //
+    public void postFormFile(BaseHttpClient client, Callback callback) {
+        RequestBody requestBody = null;
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        Request.Builder request = new Request.Builder()
+                .url(client.getUrl());
+        if (client.getTag() != null) {
+            request.tag(client.getTag());
+        }
+        if (client.getParams() != null) {
+            for (ConcurrentHashMap.Entry<String, String> entry : client.getParams().urlParams.entrySet()) {
+                builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + entry.getKey() + "\""),
+                        RequestBody.create(null, entry.getValue()));
+            }
+            requestBody = builder.build();
+            if (client.getParams().fileParams.size() > 0) {
+                for (ConcurrentHashMap.Entry<String, BaseParams.FileWrapper> entry1 : client.getParams().fileParams.entrySet()) {
+                    {
+                        File file = entry1.getValue().file;
+                        String fileName = file.getName();
+                        RequestBody fileBody = RequestBody.create(MediaType.parse(URLEncodedUtils.guessMimeType(fileName)), file);
+                        //根据文件名设置contentType
+                        builder.addFormDataPart(entry1.getKey(), fileName, fileBody);
+                    }
+                }
+            }
+            request.post(requestBody);
+            for (ConcurrentHashMap.Entry<String, String> entry : client.getParams().headParams.entrySet()) {
+                request.header(entry.getKey(), entry.getValue());
+            }
+        }
+        try {
+            mOkHttpClient.newCall(request.build()).enqueue(callback);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void downloadFile(BaseHttpClient client, Callback callback) {
+        Call call = null;
+        try {
+            Request.Builder request = new Request.Builder()
+                    .url(URLEncodedUtils.getUrlWithQueryString(client.isShouldEncodeUrl(),
+                            client.getUrl(), client.getParams()));
+            if (client.getTag() != null) {
+                request.tag(client.getTag());
+            }
+            call = mOkHttpClient.newCall(request.get().build());
+            call.enqueue(callback);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+//    public void postFileProgress(BaseHttpClient client, Callback callback) {
 //        MediaType MEDIA_TYPE_STREAM = MediaType.parse("application/octet-stream");
 //        RequestBody fileBody = null;
 //        Request.Builder request = new Request.Builder()
@@ -425,13 +419,13 @@ public class OkHttpImpl<T> implements BaseHttpImpl {
 //        }
 //        try {
 //            BaseOkCall handler = new BaseOkCall(client, baseObserver);
-//            mOkHttpClient.newCall(request.build()).enqueue(handler);
+//            mOkHttpClient.newCall(request.build()).enqueue(callback);
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
 //    }
-//
-//    public void postFormProgress(BaseHttpClient client, BaseSubscriber<T> baseObserver) {
+
+//    public void postFormProgress(BaseHttpClient client, Callback callback) {
 //        RequestBody requestBody = null;
 //        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
 //
@@ -464,7 +458,7 @@ public class OkHttpImpl<T> implements BaseHttpImpl {
 //        }
 //        try {
 //            BaseOkCall handler = new BaseOkCall(client, baseObserver);
-//            mOkHttpClient.newCall(request.build()).enqueue(handler);
+//            mOkHttpClient.newCall(request.build()).enqueue(callback);
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
@@ -478,30 +472,30 @@ public class OkHttpImpl<T> implements BaseHttpImpl {
                 get(client, callback);
                 break;
             case METHOD.POST_STRING:
-                //  postString(client, baseObserver);
+             //   postString(client, callback);
                 break;
             case METHOD.POST_FORM:
                 postForm(client, callback);
                 break;
             case METHOD.POST_FILE:
             case METHOD.POST_FILE_PROGRESS:
-                //   postFileProgress(client,baseObserver);
+             //   postFileProgress(client, callback);
                 break;
             case METHOD.POST_FORM_FILE:
             case METHOD.POST_FORM_PROGRESS:
-                ///postFormProgress(client,baseObserver);
+            //    postFormProgress(client, callback);
                 break;
             case METHOD.DOWNLOAD_FILE:
-                //   downloadFile(client, baseObserver);
+                downloadFile(client, callback);
                 break;
             case METHOD.PUT:
-                //   put(client, baseObserver);
+                put(client, callback);
                 break;
             case METHOD.PATCH:
-                //  patch(client, baseObserver);
+                patch(client, callback);
                 break;
             case METHOD.DELETE:
-                // delete(client, baseObserver);
+                delete(client, callback);
                 break;
         }
     }

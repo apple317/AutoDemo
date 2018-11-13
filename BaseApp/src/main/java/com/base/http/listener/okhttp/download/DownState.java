@@ -1,4 +1,4 @@
-package com.base.http.listener.okhttp.upload;
+package com.base.http.listener.okhttp.download;
 
 /**
  * 下载状态
