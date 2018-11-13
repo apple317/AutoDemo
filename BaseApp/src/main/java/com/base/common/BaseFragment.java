@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.base.utils.Utils;
+import com.base.view.progress.loading.LoadingDialog;
 import com.trello.rxlifecycle.components.RxFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -24,6 +25,7 @@ import butterknife.ButterKnife;
 public abstract class BaseFragment extends RxFragment {
 
     protected BaseActivity mActivity;
+    protected LoadingDialog loadingDialog;
 
     @Override
     public void onAttach(Context context) {
@@ -36,6 +38,7 @@ public abstract class BaseFragment extends RxFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View inflate = inflater.inflate(getFragmentLayout(), container, false);
+        loadingDialog=new LoadingDialog(getActivity());
         ButterKnife.bind(this, inflate);
         initData();
         initView();

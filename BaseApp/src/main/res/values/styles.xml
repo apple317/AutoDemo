@@ -16,4 +16,10 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="LoadingProgressDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="colorAccent">@color/color_ffffff</item>
+    </style>
+
 </resources>

@@ -5,7 +5,7 @@ import com.base.common.BaseApplication;
 
 import demoapp.lotter.com.common.drager.AppComponent;
 import demoapp.lotter.com.common.drager.AppModule;
-import demoapp.lotter.com.common.http.DaggerAppComponent;
+import demoapp.lotter.com.common.drager.DaggerAppComponent;
 
 
 public class AppleApplication extends BaseApplication {

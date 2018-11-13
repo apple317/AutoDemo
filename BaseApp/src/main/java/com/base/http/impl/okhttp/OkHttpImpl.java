@@ -4,6 +4,7 @@ package com.base.http.impl.okhttp;
 import com.base.http.common.HttpConfiguration;
 import com.base.http.gsonfactory.CustomGsonConverterFactory;
 import com.base.http.impl.BaseHttpImpl;
+import com.base.http.interceptor.Networknterceptor;
 import com.base.http.log.HttpLoggingInterceptor;
 
 import java.util.Collections;
@@ -94,10 +95,10 @@ public class OkHttpImpl implements BaseHttpImpl{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        builder.addNetworkInterceptor(interceptor);
-       // builder.cache(new Cache(new File(configuration.getContext().getExternalFilesDir("okhttpCache"), ""), 14 * 1024 * 100));
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        builder.interceptors().add(loggingInterceptor);
+        builder.networkInterceptors().add(new Networknterceptor());
         mOkHttpClient = builder.build();
         retrofit = new Retrofit.Builder()
                 .client(mOkHttpClient)

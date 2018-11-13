@@ -1,13 +1,18 @@
 package com.base.common;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.base.utils.Utils;
+import com.base.view.progress.loading.LoadingDialog;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -22,9 +27,12 @@ import butterknife.ButterKnife;
 @SuppressLint("Registered")
 public abstract class BaseActivity extends RxAppCompatActivity {
 
+    LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadingDialog=new LoadingDialog(getApplicationContext());
         setContentView(setLayoutId());
         ButterKnife.bind(this);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 禁止所有的activity横屏
@@ -127,6 +135,33 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         }
     }
 
+
+
+    public class StatusBarUtils {
+        public void setWindowStatusBarColor(Activity activity, int colorResId) {
+            try {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                    Window window = activity.getWindow();
+
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+                    window.setStatusBarColor(activity.getResources().getColor(colorResId));
+
+                    //底部导航栏
+
+                    //window.setNavigationBarColor(activity.getResources().getColor(colorResId));
+                }
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+
+            }
+
+        }
+    }
 
 
 }

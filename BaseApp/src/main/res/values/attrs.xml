@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="Toolbar">
+        <attr name="titleTxt" format="reference|string" />
+        <attr name="leftImg" format="reference" />
+        <attr name="rightImg" format="reference" />
+        <attr name="showLeftImg" format="boolean" />
+        <attr name="showRightImg" format="boolean" />
+        <attr name="showLeftTxt" format="boolean" />
+        <attr name="showRightTxt" format="boolean" />
+        <attr name="leftTxt" format="reference|string" />
+        <attr name="rightTxt" format="reference|string" />
+        <attr name="background" format="reference" />
+    </declare-styleable>
+
+
+</resources>

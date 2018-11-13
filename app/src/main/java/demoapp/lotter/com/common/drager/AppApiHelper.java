@@ -46,7 +46,7 @@ public class AppApiHelper implements ApiHelper {
         LogUtil.isOpen = BuildConfig.LOTTERY_ALPHA ? true : false;
         HttpConfiguration.Builder configuration = new HttpConfiguration.Builder(context);
         configuration.retryOnConnectionFailure(true);
-        configuration.diskCacheSize(1000 * 1024);
+        configuration.diskCacheSize(10 * 1024 * 1024);
         configuration.setBaseUrl(Constants.getBaseUrl(context));
         configuration.setCookieJar(new CookieJarImpl(new PersistentCookieStore(context)));
         configuration.diskCacheDir(context.getCacheDir());

@@ -45,5 +45,7 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
     api rootProject.ext.dependencies["butterknife"]
     api rootProject.ext.dependencies["retrofit"]
+    api rootProject.ext.dependencies["SmartRefreshLayout"]
+    api rootProject.ext.dependencies["SmartRefreshHeader"]
     implementation 'org.jetbrains:annotations:15.0'
 }

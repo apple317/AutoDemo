@@ -5,6 +5,14 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.base.utils.Utils;
+import com.scwang.smartrefresh.header.MaterialHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 
 
 /**
@@ -18,8 +26,8 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mApplication = this;
-
         Utils.init(this);
+        initRefresh();
     }
 
     /**
@@ -34,6 +42,21 @@ public class BaseApplication extends Application {
         MultiDex.install(base);
     }
 
+
+    private void initRefresh() {
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
+            @Override
+            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
+                return new MaterialHeader(context);
+            }
+        });
+        SmartRefreshLayout.setDefaultRefreshFooterCreator(new DefaultRefreshFooterCreator() {
+            @Override
+            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
+                return new ClassicsFooter(context);
+            }
+        });
+    }
 
     /**
      * 利用单例模式获取HuoQApplication实例
