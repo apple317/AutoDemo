@@ -174,19 +174,19 @@ public class HttpConfiguration {
 
         /**
          * 网络连接超时时间
-         * 单位：毫秒级
+         * 单位：秒级
          */
-        int connectTimeout = 100000;
+        int connectTimeout = 10;
         /**
          * 网络连接读取时间
-         * 单位：毫秒级
+         * 单位：秒级
          */
-        int readTimeout = 100000;
+        int readTimeout = 10;
         /**
          * 网络连接写入时间
-         * 单位：毫秒级
+         * 单位：秒级
          */
-        int writeTimeout = 100000;
+        int writeTimeout = 10;
 
         Context context;
         boolean retryOnConnectionFailure;

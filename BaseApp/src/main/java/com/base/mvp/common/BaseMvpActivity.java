@@ -1,9 +1,10 @@
-package com.base.common;
+package com.base.mvp.common;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.base.common.BaseActivity;
 import com.base.mvp.factroy.IMvpPresenterFactroy;
 import com.base.mvp.factroy.IPresenterProxyFactroy;
 import com.base.mvp.factroy.MvpPresenterFactroyImpl;

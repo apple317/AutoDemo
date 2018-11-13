@@ -20,7 +20,6 @@ public class BaseApplication extends Application {
         mApplication = this;
 
         Utils.init(this);
-        BaseApi.host(BaseApi.HostType.TEST_150, true);  //初始化api环境
     }
 
     /**

@@ -1,7 +1,7 @@
 package com.base.mvp.annotations;
 
 
-import com.base.common.BasePresenter;
+import com.base.mvp.common.BasePresenter;
 
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;

@@ -1,4 +1,4 @@
-package com.base.common;
+package com.base.mvp.common;
 
 import com.trello.rxlifecycle.LifecycleTransformer;
 

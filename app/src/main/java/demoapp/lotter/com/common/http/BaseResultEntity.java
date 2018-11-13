@@ -16,6 +16,28 @@ public  class BaseResultEntity<T> {
         Data = data;
     }
 
+    public int getCode() {
+        return Code;
+    }
 
+    public void setCode(int code) {
+        Code = code;
+    }
+
+    public String getMsg() {
+        return Msg;
+    }
+
+    public void setMsg(String msg) {
+        Msg = msg;
+    }
+
+    //    public T getData() {
+//        return data;
+//    }
+//
+//    public void setData(T data) {
+//        this.data = data;
+//    }
 
 }

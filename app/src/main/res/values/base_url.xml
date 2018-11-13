@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--@@@@@@@@@@@@@@@@@ 正式环境地址 @@@@@@@@@@@@@@@@@-->
+    <array name="LineDetections">
+        <item>https://mbappzxurlxl1.zzxx7.com</item>
+    </array>
+
+    <!--***************** 测试环境地址 ***************** -->
+    <array name="AlphaLineDetections">
+        <item>https://mbappzxurlxl1.zzxx7.com</item>
+    </array>
+    <!--***************** 测试环境地址 ***************** -->
+
+
+    <!--***************** 客户测试环境地址 ***************** -->
+    <array name="BetaLineDetections">
+        <item>https://mbappzxurlxl1.zzxx7.com</item>
+    </array>
+    <!--***************** 客户测试环境地址 ***************** -->
+
+</resources>

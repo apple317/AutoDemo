@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.base.common.BaseMvpFragment;
-import com.base.common.BasePresenter;
-import com.base.common.IBaseView;
+import com.base.mvp.common.BaseMvpFragment;
+import com.base.mvp.common.BasePresenter;
+import com.base.mvp.common.IBaseView;
 
 /**
  * yangyoupeng  on 2018/5/2.

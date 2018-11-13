@@ -172,6 +172,11 @@ android {
 
     defaultConfig {
         multiDexEnabled true
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
     }
 }
 
@@ -204,6 +209,9 @@ dependencies {
     androidTestImplementation rootProject.ext.dependencies["espresso-core"]
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
     implementation rootProject.ext.dependencies["butterknife"]
+    implementation rootProject.ext.dependencies["dagger-compiler"]
+    implementation rootProject.ext.dependencies["dagger-support"]
     api project(path: ':BaseApp')
+    implementation rootProject.ext.dependencies["rxjava"]
     implementation 'org.greenrobot:eventbus:3.1.1'
 }

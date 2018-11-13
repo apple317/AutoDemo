@@ -4,7 +4,7 @@ package com.base.http.impl.okhttp;
 import com.base.http.common.HttpConfiguration;
 import com.base.http.gsonfactory.CustomGsonConverterFactory;
 import com.base.http.impl.BaseHttpImpl;
-import com.base.http.log.HttpLoggingInterceptorM;
+import com.base.http.log.HttpLoggingInterceptor;
 
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
@@ -66,9 +66,9 @@ public class OkHttpImpl implements BaseHttpImpl{
     @Override
     public void init(HttpConfiguration configuration) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.connectTimeout(configuration.getConnectTimeout(), TimeUnit.MILLISECONDS);
-        builder.readTimeout(configuration.getReadTimeout(), TimeUnit.MILLISECONDS);
-        builder.writeTimeout(configuration.getWriteTimeout(), TimeUnit.MILLISECONDS);
+        builder.connectTimeout(configuration.getConnectTimeout(), TimeUnit.SECONDS);
+        builder.readTimeout(configuration.getReadTimeout(), TimeUnit.SECONDS);
+        builder.writeTimeout(configuration.getWriteTimeout(), TimeUnit.SECONDS);
         if (configuration.getCacheDir() != null && configuration.getCacheDir().isDirectory()) {
             Cache cache = new Cache(configuration.getCacheDir(), configuration.getDiskCacheSize());
             builder.cache(cache);
@@ -94,8 +94,8 @@ public class OkHttpImpl implements BaseHttpImpl{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        HttpLoggingInterceptorM interceptor = new HttpLoggingInterceptorM();
-        interceptor.setLevel(HttpLoggingInterceptorM.Level.BODY);
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         builder.addNetworkInterceptor(interceptor);
        // builder.cache(new Cache(new File(configuration.getContext().getExternalFilesDir("okhttpCache"), ""), 14 * 1024 * 100));
         mOkHttpClient = builder.build();

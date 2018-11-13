@@ -30,6 +30,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     api files('libs/commons-codec-1.6.jar')
+    api rootProject.ext.dependencies["converter-gson"]
     api rootProject.ext.dependencies["rxlifecycle"]
     api rootProject.ext.dependencies["rxlifecycle-components"]
     api rootProject.ext.dependencies["adapter-rxjava"]
@@ -44,6 +45,5 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
     api rootProject.ext.dependencies["butterknife"]
     api rootProject.ext.dependencies["retrofit"]
-    api rootProject.ext.dependencies["converter-gson"]
     implementation 'org.jetbrains:annotations:15.0'
 }

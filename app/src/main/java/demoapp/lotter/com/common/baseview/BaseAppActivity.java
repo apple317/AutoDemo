@@ -3,9 +3,9 @@ package demoapp.lotter.com.common.baseview;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.base.common.BaseMvpActivity;
-import com.base.common.BasePresenter;
-import com.base.common.IBaseView;
+import com.base.mvp.common.BaseMvpActivity;
+import com.base.mvp.common.BasePresenter;
+import com.base.mvp.common.IBaseView;
 
 
 /**

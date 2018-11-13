@@ -1,40 +1,35 @@
 package demoapp.lotter.com.common.baseview;
 
 
-import android.app.Application;
+import com.base.common.BaseApplication;
 
-import com.base.http.common.BaseHttpClient;
-import com.base.http.common.HttpConfiguration;
-import com.base.http.cookie.okhttp.CookieJarImpl;
-import com.base.http.cookie.okhttp.PersistentCookieStore;
-import com.base.utils.LogUtil;
-
-import demoapp.lotter.com.hellodemo.BuildConfig;
+import demoapp.lotter.com.common.drager.AppComponent;
+import demoapp.lotter.com.common.drager.AppModule;
+import demoapp.lotter.com.common.http.DaggerAppComponent;
 
 
-public class AppleApplication extends Application {
+public class AppleApplication extends BaseApplication {
 
+    private static AppComponent mAppComponent;
 
+    public static AppComponent getAppComponent() {
+        return mAppComponent;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        LogUtil.isOpen = BuildConfig.LOTTERY_ALPHA ? true : false;
-        HttpConfiguration.Builder configuration = new HttpConfiguration.Builder(this);
-        configuration.retryOnConnectionFailure(true);
-        configuration.diskCacheSize(1000 * 1024);
-        configuration.connectTimeout(30000);
-        configuration.readTimeout(30000);
-        configuration.writeTimeout(30000);
-        configuration.setBaseUrl("https://mbappzxurlxl1.zzxx7.com");
-        configuration.setCookieJar(new CookieJarImpl(new PersistentCookieStore(this)));
-        configuration.diskCacheDir(getCacheDir());
-        configuration.setOpenLog(true);
-        BaseHttpClient baseHttpClient = BaseHttpClient.getBaseClient();
-        baseHttpClient.init(configuration.build());
+        setUpApplicationComponent();
+        mAppComponent.getApiHelper().initHttp(this);
     }
 
 
+    private void setUpApplicationComponent() {
+        mAppComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build();
+        mAppComponent.inject(this);
+    }
 
 
 }

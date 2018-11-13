@@ -1,7 +1,7 @@
 package com.base.mvp.factroy;
 
-import com.base.common.BasePresenter;
-import com.base.common.IBaseView;
+import com.base.mvp.common.BasePresenter;
+import com.base.mvp.common.IBaseView;
 
 
 /**
